@@ -4,7 +4,7 @@ OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) a
 
 ## Instructions
 
-1. Download the program for your kind of computer from the [Releases](https://github.com/jflamy/owlcms4-heroku-updater/releases/latest) page.  T
+1. Download the program for your kind of computer from the [Releases](https://github.com/jflamy/owlcms4-heroku-updater/releases/latest) page.
    - **On Windows, you can simply download then double-click on the `updater-windows-64.exe` file**.  
    - On other platforms (Mac, Linux), the program is run from the command-line.
 
