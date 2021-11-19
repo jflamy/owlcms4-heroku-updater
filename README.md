@@ -2,12 +2,11 @@
 
 OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) and its [Public Results Scoreboard](https://github.com/owlcms/publicresults-heroku) are deployed to Heroku using a simple `Deploy to Heroku` button.  But Heroku does not provide an automatic update feature. Hence this program.
 
-## Instructions
+## Windows Instructions
 
 1. Download the program for your kind of computer from the [Releases](https://github.com/jflamy/owlcms4-heroku-updater/releases/latest) page.
-   - **On Windows, you can simply download then double-click on the `updater-windows-64.exe` file**.  
-   - On other platforms (Mac, Linux), the program is run from the command-line.
-
+   - On Windows, you can simply download then double-click on the `updater-windows-64.exe` file. 
+   
 1. If the user has not used the `heroku` program or this updater on the machine before, a prompt for the Heroku username and password is given. The API token is stored locally so that subsequent updates do not require the password.
 2. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).
 3. Each application is then updated, if needed, to the latest version available (prerelease applications are updated to the latest prerelease, stable applications to the latest stable.)  
@@ -17,6 +16,31 @@ OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) a
 On Windows, a new window will open.  You can see that on first use the Heroku login and password is requested.   If you have other Heroku applications, they are skipped.  Only the owlcms applications have the necessary information needed to do the automatic update.
 
 ![image](https://user-images.githubusercontent.com/678663/74204710-348c2480-4c6c-11ea-82d7-4908fabb296c.png)
+
+
+
+## Linux and macOS
+
+1. On other platforms (Mac, Linux), the program is run from the command-line.  For example, on Linux, you would open a terminal window and type (wget is on single line, copy the link from the Release page)
+
+     ```bash
+   ~$ wget https://github.com/jflamy/owlcms4-heroku-updater/releases/download/1.3.1/updater-linux-64
+      		...         
+   updater-linux-64              100%[=================================================>]   7.72M  4.39MB/s    in 1.8s
+   
+   2021-11-18 22:37:27 (4.39 MB/s) - ‘updater-linux-64’ saved [8096545/8096545]
+   
+   ~$ chmod +x updater-linux-64
+   ~$ ./updater-linux-64
+   updating ar-wl to 4.25.0-alpha01 ........^C
+   ~$ ./updater-linux-64
+   		...
+   ```
+     The process on macOS is the same.
+
+2. If the user has not used the `heroku` program or this updater on the machine before, a prompt for the Heroku username and password is given. The API token is stored locally so that subsequent updates do not require the password.
+3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).
+4. Each application is then updated, if needed, to the latest version available (prerelease applications are updated to the latest prerelease, stable applications to the latest stable.)  
 
 ## Command-line options
 

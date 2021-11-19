@@ -12,9 +12,9 @@
     <url>https://github.com/jflamy/owlcms4-heroku-updater</url>
 
     <properties>
-        <mvn.golang.go.version>1.13.4</mvn.golang.go.version>
+        <mvn.golang.go.version>1.16.5</mvn.golang.go.version>
         <mvn.golang.get.packages.file>${basedir}${file.separator}packages.txt</mvn.golang.get.packages.file>
-        <go.wrapper.plugin.version>2.3.4</go.wrapper.plugin.version>
+        <go.wrapper.plugin.version>2.3.9</go.wrapper.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <mvn.version>3.0</mvn.version>
@@ -66,7 +66,7 @@
                 <version>${go.wrapper.plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <!--<goPath>${basedir}</goPath> -->
+                    <goPath>${basedir}</goPath>
                     <!--<enforceGoPathToEnd>true</enforceGoPathToEnd> -->
                     <!--<verbose>true</verbose> -->
 <!--                     <useEnvVars>true</useEnvVars> -->
@@ -137,7 +137,7 @@
                             </packages>
                         </configuration>
                     </execution>
-                    <!-- This execution will build version for windows 64bits -->
+                    <!-- This execution will build version for macos 64bits -->
                     <execution>
                         <id>build-for-mac-amd64</id>
                         <goals>
@@ -146,12 +146,27 @@
                         <configuration>
                             <targetOs>darwin</targetOs>
                             <targetArch>amd64</targetArch>
-                            <resultName>${project.artifactId}-macos-64.exe</resultName>
+                            <resultName>${project.artifactId}-macOS-intel</resultName>
                             <packages>
                                 <app>${project.artifactId}.go</app>
                             </packages>
                         </configuration>
-                    </execution>                    
+                    </execution>
+                    <!-- This execution will build version for macos 64bits -->
+                    <execution>
+                        <id>build-for-mac-m1</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <targetOs>darwin</targetOs>
+                            <targetArch>arm64</targetArch>
+                            <resultName>${project.artifactId}-macOS-m1</resultName>
+                            <packages>
+                                <app>${project.artifactId}.go</app>
+                            </packages>
+                        </configuration>
+                    </execution>                     
                 </executions>
             </plugin>
         </plugins>
