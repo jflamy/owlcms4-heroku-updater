@@ -184,7 +184,7 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 }
 
 func waitForInput() {
-	if runtime.GOOS == "windows" {
+	if runtime.GOOS == "windows" && !*noshell {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("\nHit ENTER to close. ")
 		_, _ = reader.ReadString('\n')
