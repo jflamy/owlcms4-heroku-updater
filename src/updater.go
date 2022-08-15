@@ -38,7 +38,7 @@ var (
 	stableOnly     = flag.Bool("stable", false, "if present, update only stable releases")
 	// archiveName = flag.String("archivename", "owlcms4-heroku", "basename without .tar.gz")
 
-	archive = flag.String("archive", "", "archive url, default is latest inferred from reponame and repoowner")
+	archive = flag.String("archive", "", "archive url from github release directory")
 	// repoName  = flag.String("reponame", *archiveName+"-prerelease", "name of repository")
 	// repoOwner = flag.String("repoowner", "jflamy-dev", "owner of repository")
 
