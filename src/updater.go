@@ -23,18 +23,19 @@ import (
 	"github.com/coreos/go-semver/semver"
 	"github.com/mitchellh/go-homedir"
 
-	terminal "golang.org/x/crypto/ssh/terminal"
-
 	heroku "github.com/heroku/heroku-go/v5"
 	v5 "github.com/heroku/heroku-go/v5"
+	terminal "golang.org/x/term"
 )
 
 var (
 	apiKey      = flag.String("apikey", "", "api key, default found in .netrc, or via username + password")
-	createshell = flag.String("createshell", "false", "if missing, the program will spawn a cli")
-	forceUpdate = flag.String("force", "false", "if true, ignore version number comparison")
+	noshell     = flag.Bool("noshell", false, "if missing, the program will spawn a cli")
+	forceUpdate = flag.Bool("force", false, "if present, ignore version number comparison")
 
-	appName = flag.String("app", "owlcmsauto", "heroku application to update")
+	appName        = flag.String("app", "owlcmsauto", "heroku application to update")
+	prereleaseOnly = flag.Bool("prerelease", false, "if present, update only prereleases")
+	stableOnly     = flag.Bool("stable", false, "if present, update only stable releases")
 	// archiveName = flag.String("archivename", "owlcms4-heroku", "basename without .tar.gz")
 
 	archive = flag.String("archive", "", "archive url, default is latest inferred from reponame and repoowner")
@@ -118,23 +119,19 @@ func processApp(h *v5.Service, appName string) (err error) {
 		}
 	}
 
-	if forceIfInvalidVersion || theirVersion.LessThan(*ourVersion) || *forceUpdate == "true" {
+	isPreReleaseApp := strings.Contains(archiveURL, "-prerelease")
+
+	if !isPreReleaseApp && *prereleaseOnly {
+		return errors.New("not prerelease")
+	} else if isPreReleaseApp && *stableOnly {
+		return errors.New("not stable")
+	}
+
+	if forceIfInvalidVersion || theirVersion.LessThan(*ourVersion) || *forceUpdate {
 		updateApp(&appName, tagName, archiveURL)
 	} else {
 		fmt.Println(appName + " already up to date  (" + *versionNum + " >= " + tagName + " )")
 	}
-
-	// ourVersion, err = semver.NewVersion("4.7.4+1")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// } else {
-	// 	theirVersion, _ = semver.NewVersion("4.7.4")
-	// 	if theirVersion.LessThan(*ourVersion) {
-	// 		fmt.Println(theirVersion, "<", ourVersion)
-	// 	} else {
-	// 		fmt.Println(theirVersion, ">=", ourVersion)
-	// 	}
-	// }
 
 	return nil
 }
@@ -187,7 +184,7 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 }
 
 func waitForInput() {
-	if runtime.GOOS == "windows" { // && *createshell == "spawned"
+	if runtime.GOOS == "windows" {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("\nHit ENTER to close. ")
 		_, _ = reader.ReadString('\n')
@@ -330,10 +327,10 @@ func spawnCommandWindow() {
 		panic(err)
 	}
 
-	if runtime.GOOS == "windows" && *createshell == "true" {
+	if runtime.GOOS == "windows" && !*noshell {
 		// fork a new Command window if running under Windows
-		// -createshell false to prevent recursion
-		cmd := exec.Command("conhost.exe", ex, "-createshell", "spawned")
+		// add -noshell to prevent recursion
+		cmd := exec.Command("conhost.exe", ex, "-noshell")
 		err := cmd.Run()
 		if err != nil {
 			fmt.Println(err.Error())
