@@ -8,12 +8,12 @@ OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) a
    - On Windows, you can simply download then double-click on the `updater-windows-64.exe` file. 
    
 1. If the user has not used the `heroku` program or this updater on the machine before, a prompt for the Heroku username and password is given. The API token is stored locally so that subsequent updates do not require the password.
-2. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).
+2. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Non-owlcms applications are ignored, so this program is safe to run if you have other Heroku apps.
 3. Each application is then updated, if needed, to the latest version available (prerelease applications are updated to the latest prerelease, stable applications to the latest stable.)  
 
 ## Example
 
-On Windows, a new window will open.  You can see that on first use the Heroku login and password is requested.   If you have other Heroku applications, they are skipped.  Only the owlcms applications have the necessary information needed to do the automatic update.
+On Windows, a new window will open.  You can see that on first use the Heroku login and password is requested.  If you have two-factor authentication setup, you may need to go to your Heroku page if you have not logged in for a while, and perform a login.
 
 ![image](https://user-images.githubusercontent.com/678663/74204710-348c2480-4c6c-11ea-82d7-4908fabb296c.png)
 
