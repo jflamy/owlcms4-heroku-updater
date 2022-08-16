@@ -85,7 +85,11 @@ func setupHerokuApiKey(apiKey *string, apiURL string) (err error) {
 
 func updateAllApps() {
 	h := heroku.NewService(heroku.DefaultClient)
-	apps, _ := h.AppList(context.Background(), nil)
+	apps, err := h.AppList(context.Background(), nil)
+	if err != nil {
+		fmt.Println("cannot obtain application list " + err.Error())
+		return
+	}
 	for _, app := range apps {
 
 		appName := app.Name
@@ -339,7 +343,7 @@ func spawnCommandWindow() {
 		}
 		os.Exit(0)
 	} // else {
-	// 	under Linux, assume we are running a command line.
+	// 	under Linux and macOS, assume we are running a command line.
 	// }
 }
 

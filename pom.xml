@@ -93,7 +93,7 @@
                         </configuration>
                     </execution>
                     <!-- This execution will build version for linux i386 -->
-                    <execution>
+<!--                     <execution>
                         <id>build-for-linux386</id>
                         <goals>
                             <goal>build</goal>
@@ -106,9 +106,9 @@
                                 <app>${project.artifactId}.go</app>
                             </packages>
                         </configuration>
-                    </execution>
+                    </execution> -->
                     <!-- This execution will build version for windows i386 -->
-                    <execution>
+<!--                     <execution>
                         <id>build-for-windows386</id>
                         <goals>
                             <goal>build</goal>
@@ -121,7 +121,7 @@
                                 <app>${project.artifactId}.go</app>
                             </packages>
                         </configuration>
-                    </execution>
+                    </execution> -->
                     <!-- This execution will build version for windows 64bits -->
                     <execution>
                         <id>build-for-windows-amd64</id>
