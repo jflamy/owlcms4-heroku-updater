@@ -30,7 +30,6 @@ import (
 
 var (
 	apiKey      = flag.String("apikey", "", "api key, default found in .netrc, or via username + password")
-	noshell     = flag.Bool("noshell", false, "if missing, the program will spawn a cli")
 	forceUpdate = flag.Bool("force", false, "if present, ignore version number comparison")
 
 	appName        = flag.String("app", "owlcmsauto", "heroku application to update")
@@ -41,6 +40,9 @@ var (
 	archive = flag.String("archive", "", "archive url from github release directory")
 	// repoName  = flag.String("reponame", *archiveName+"-prerelease", "name of repository")
 	// repoOwner = flag.String("repoowner", "jflamy-dev", "owner of repository")
+
+	noshell  = flag.Bool("noshell", false, "on Windows, the program opens a new Window unless this parameter is given.")
+	doprompt = flag.Bool("prompt", false, "on Windows, prompt to exit")
 
 	apiURL = "https://api.heroku.com"
 )
@@ -150,7 +152,7 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 
 	if err != nil {
 		log.Print(err)
-		defer waitForInput()
+		//defer waitForInput()
 		return
 	}
 
@@ -170,21 +172,21 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 	cviar, err := h.ConfigVarInfoForApp(context.Background(), *appName)
 	if err != nil {
 		log.Print(err)
-		defer waitForInput()
+		//defer waitForInput()
 		return
 	}
 	cviar["OWLCMS_VERSION"] = &tagName
 	cviar2, err := h.ConfigVarUpdate(context.Background(), *appName, cviar)
 	if err != nil {
 		log.Print(err)
-		defer waitForInput()
+		//defer waitForInput()
 		return
 	}
 	fmt.Println(" Updated to " + *cviar2["OWLCMS_VERSION"])
 }
 
 func waitForInput() {
-	if runtime.GOOS == "windows" && !*noshell {
+	if runtime.GOOS == "windows" && *doprompt {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("\nHit ENTER to close. ")
 		_, _ = reader.ReadString('\n')
@@ -293,7 +295,7 @@ func getArchiveName(latestUrl string) (archiveURL string, tagName string, err er
 	if err != nil || resp.StatusCode != 200 {
 		msg := fmt.Sprintf("call to github %s failed %v", latestUrl, resp.StatusCode)
 		fmt.Println(msg)
-		defer waitForInput()
+		//defer waitForInput()
 		return "", "", errors.New(strconv.Itoa(resp.StatusCode))
 	}
 
@@ -303,7 +305,7 @@ func getArchiveName(latestUrl string) (archiveURL string, tagName string, err er
 	if err != nil {
 		msg := fmt.Sprintf("could not decode %s\n", resp.Body)
 		fmt.Println(msg)
-		defer waitForInput()
+		//defer waitForInput()
 		return "", "", errors.New(strconv.Itoa(resp.StatusCode))
 	}
 
@@ -329,8 +331,7 @@ func spawnCommandWindow() {
 
 	if runtime.GOOS == "windows" && !*noshell {
 		// fork a new Command window if running under Windows
-		// add -noshell to prevent recursion
-		cmd := exec.Command("conhost.exe", ex, "-noshell")
+		cmd := exec.Command("conhost.exe", ex, "-prompt", "-noshell")
 		err := cmd.Run()
 		if err != nil {
 			fmt.Println(err.Error())
