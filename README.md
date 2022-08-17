@@ -14,7 +14,11 @@ OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) a
    >
    > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it when prompted for the password.
    >
-   > If you have two-factor authentication enabled, the key may expire after a few days and you will need to login again to the dashboard to renew.  You will also need to remove the _netrc file found in your home directory to force the program to prompt you again.
+   > You have three options around this issue:
+   >
+   > 1. start your own command shell and add the `-noshell` and `-apikey=xxxx` options, replacing xxxx with the key you fetched
+   > 2. remove the _netrc file in your home directory, and you will be prompted again.  Provide the current API key.
+   > 3. install the `heroku` CLI and use the `heroku login` command to revalidate the key.
 
 3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Non-owlcms applications are ignored, so this program is safe to run if you have other Heroku apps.
 
@@ -52,9 +56,11 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
 
      > NOTE: if you have two-factor authentication enabled on your Heroku account, <u>the password you need to provide is the API Key</u></u> found on https://dashboard.heroku.com/account  
      >
-     > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it when prompted for the password.
+     > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it.
      >
-     > If you have two-factor authentication enabled, the key may expire after a few days and you will need to login again to the dashboard to renew.  You will also need to remove the .netrc file found in your home directory to force the program to prompt you again.  Files that start with "." are normally hidden.  Use `ls -a` to see hidden files.
+     > You will then invoke the program as follows (substituting xxxxx with the actual key you revealed):
+     >
+     > `./updater-linux-64 -apikey xxxxx`
 
 3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Other applications that are not owlcms or publicresults will be ignored.
 
@@ -62,15 +68,15 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
 
 ## Command-line options
 
-By default, on Windows, the program opens a new command-line Window.  If you want to use these you will need to use `-createshell false`
+By default, on Windows, the program opens a new command-line window and does not give you the opportunity to add options.  If you want to use options, start your own command-line, and invoke the program as `.\updater-windows-64.exe -noshell` with the other options you want.
 
 | Option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <nobr>`-noshell`</nobr>                            | if missing, open a new terminal window.  If present, run in the current command-line interface without opening a new window (useful for scripts).  Only works on Windows  (ignored on other platforms) |
+| <nobr>`-noshell`</nobr>                                      | if missing, open a new terminal window.  If present, run in the current command-line interface without opening a new window (useful for scripts).  Only works on Windows  (ignored on other platforms) |
 | -apikey *keyvalue*                                           | Ignore the Heroku access token currently stored in the home directory `.netrc` (`_netrc` on Windows).  Use instead the token provided. The token can be obtained for a given user from the [User Account](https://dashboard.heroku.com/account) page and using the `Reveal`button at the right of the `API Key` section. |
 | -app *appName*                                               | Used together with `-archive`, the name of a single application to be updated.  This is used to revert to a prior version in the event of a glitch. |
 | `-archive` *tarball*                                         | The explicit URL of a .tar.gz file to be used to rebuild the application.  Such files are located in the Releases section of owlcms-heroku and publicresults-heroku. |
-| `-force`                                               | If present, ignore the version numbers and update to the latest available version. Used to work around a bug in the semantic versioning library that thinks that rc9 is bigger than rc10. |
-| `-prerelease` | If present, only prerelease versions will be updated. |
-| `-stable` | If present, only stable versions will be updated. |
+| `-force`                                                     | If present, ignore the version numbers and update to the latest available version. |
+| `-prerelease`                                                | If present, only prerelease versions will be updated.        |
+| `-stable`                                                    | If present, only stable versions will be updated.            |
 
