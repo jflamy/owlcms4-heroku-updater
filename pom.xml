@@ -4,7 +4,7 @@
 
     <groupId>app.owlcms</groupId>
     <artifactId>updater</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.2</version>
     <packaging>mvn-golang</packaging>
 
     <name>OWLCMS4 Heroku Updater</name>
@@ -30,10 +30,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-<!--     <prerequisites>
-        <maven>${mvn.version}</maven>
-    </prerequisites> -->
 
     <profiles>
         <profile>
