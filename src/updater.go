@@ -29,20 +29,17 @@ import (
 )
 
 var (
-	apiKey      = flag.String("apikey", "", "api key, default found in .netrc, or via username + password")
+	apiKey      = flag.String("apikey", "", "api key, found in dashboard.heroku.com/account ")
 	forceUpdate = flag.Bool("force", false, "if present, ignore version number comparison")
 
-	appName        = flag.String("app", "owlcmsauto", "heroku application to update")
 	prereleaseOnly = flag.Bool("prerelease", false, "if present, update only prereleases")
 	stableOnly     = flag.Bool("stable", false, "if present, update only stable releases")
-	// archiveName = flag.String("archivename", "owlcms4-heroku", "basename without .tar.gz")
 
+	appName = flag.String("app", "", "heroku application to update, requires -archive")
 	archive = flag.String("archive", "", "archive url from github release directory")
-	// repoName  = flag.String("reponame", *archiveName+"-prerelease", "name of repository")
-	// repoOwner = flag.String("repoowner", "jflamy-dev", "owner of repository")
 
-	shell    = flag.Bool("shell", false, "on Windows, the program opens a new Window.")
-	prompt   = flag.String("prompt", "", "prompt to continue after updating")
+	shell    = flag.Bool("shell", false, "on Windows, set to true to force opening a new window.")
+	prompt   = flag.String("prompt", "", "true to force prompting after the updates, false to prevent prompting")
 	doprompt = false
 
 	apiURL = "https://api.heroku.com"
@@ -191,7 +188,7 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 }
 
 func waitForInput() {
-	if runtime.GOOS == "windows" && doprompt {
+	if doprompt {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("\nHit ENTER to close. ")
 		_, _ = reader.ReadString('\n')
@@ -339,8 +336,9 @@ func spawnCommandWindow() {
 	noargs := !((len(*apiKey) > 0) || *prereleaseOnly || *stableOnly || len(*archive) > 0 || *shell)
 	if runtime.GOOS == "windows" {
 		doprompt = (noargs && *prompt != "false") || *prompt == "true"
+		//fmt.Println("noargs", noargs, " ", *prompt, " ", doprompt)
 	} else {
-		doprompt = *prompt != "false"
+		doprompt = *prompt == "true"
 	}
 
 	if runtime.GOOS == "windows" && *shell {
