@@ -14,7 +14,7 @@ OWLCMS applications such as [OWLCMS](https://github.com/owlcms/owlcms4-heroku) a
    >
    > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it when prompted for the password.
    >
-   > If you have two-factor authentication enabled, there will be a time out and you will need to login again to the dashboard to fetch the key.
+   > If you have two-factor authentication enabled, there will be a time out and you will need to login again to the dashboard to fetch the key.  You will need to remove the _netrc file found in your home directory to force the program to prompt you again.
 
 3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Non-owlcms applications are ignored, so this program is safe to run if you have other Heroku apps.
 
@@ -54,7 +54,7 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
      >
      > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it when prompted for the password.
      >
-     > If you have two-factor authentication enabled, there will be a time out and you will need to login again to the dashboard to fetch the key.
+     > If you have two-factor authentication enabled, there will be a time out and you will need to login again to the dashboard to fetch the key. You will need to remove the .netrc file found in your home directory to force the program to prompt you again.
 
 3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Other applications that are not owlcms or publicresults will be ignored.
 
