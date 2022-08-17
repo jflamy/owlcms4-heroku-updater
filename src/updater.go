@@ -41,8 +41,9 @@ var (
 	// repoName  = flag.String("reponame", *archiveName+"-prerelease", "name of repository")
 	// repoOwner = flag.String("repoowner", "jflamy-dev", "owner of repository")
 
-	noshell  = flag.Bool("noshell", false, "on Windows, the program opens a new Window unless this parameter is given.")
-	doprompt = flag.Bool("prompt", false, "on Windows, prompt to exit")
+	shell    = flag.Bool("shell", false, "on Windows, the program opens a new Window.")
+	prompt   = flag.String("prompt", "", "prompt to continue after updating")
+	doprompt = false
 
 	apiURL = "https://api.heroku.com"
 )
@@ -190,7 +191,7 @@ func updateApp(appName *string, tagName string, archiveURL string) {
 }
 
 func waitForInput() {
-	if runtime.GOOS == "windows" && *doprompt {
+	if runtime.GOOS == "windows" && doprompt {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("\nHit ENTER to close. ")
 		_, _ = reader.ReadString('\n')
@@ -333,9 +334,18 @@ func spawnCommandWindow() {
 		panic(err)
 	}
 
-	if runtime.GOOS == "windows" && !*noshell {
+	// if there are no arguments other than prompt, prompt.
+	// if prompt=false, it takes precedence
+	noargs := !((len(*apiKey) > 0) || *prereleaseOnly || *stableOnly || len(*archive) > 0 || *shell)
+	if runtime.GOOS == "windows" {
+		doprompt = (noargs && *prompt != "false") || *prompt == "true"
+	} else {
+		doprompt = *prompt != "false"
+	}
+
+	if runtime.GOOS == "windows" && *shell {
 		// fork a new Command window if running under Windows
-		cmd := exec.Command("conhost.exe", ex, "-prompt", "-noshell")
+		cmd := exec.Command("conhost.exe", ex, "-prompt=true")
 		err := cmd.Run()
 		if err != nil {
 			fmt.Println(err.Error())

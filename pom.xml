@@ -31,9 +31,9 @@
         </license>
     </licenses>
 
-    <prerequisites>
+<!--     <prerequisites>
         <maven>${mvn.version}</maven>
-    </prerequisites>
+    </prerequisites> -->
 
     <profiles>
         <profile>
@@ -61,6 +61,7 @@
         </resources>
         <plugins>
             <plugin>
+              <?m2e ignore?>
                 <groupId>com.igormaznitsa</groupId>
                 <artifactId>mvn-golang-wrapper</artifactId>
                 <version>${go.wrapper.plugin.version}</version>
