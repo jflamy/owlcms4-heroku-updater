@@ -32,16 +32,18 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
 
 1. On other platforms (Mac, Linux), the program is run from the command-line.   The first step is to get a copy of the program.  You may use your browser or the wget command.
 
-     For Linux, the URL to use in the wget command is
-https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-linux-64
-   
+   For Linux, the URL to use in the wget command is
+
+   https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-linux-64
+
    For macOS, there are two binaries, depending on the architecture.  For older Intel Macs, use
-   
+
    https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-macOS-intel
-   
+
    For newer Macs, based on the M series chips, use
+
    https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-macOS-m1
-   
+
    ```bash
    ~$ wget https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-linux-64
           
