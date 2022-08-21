@@ -30,20 +30,35 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
 
 ## Linux and macOS
 
-1. On other platforms (Mac, Linux), the program is run from the command-line.  For example, on Linux or on macOS, you would open a terminal window and type (there is no space in the https.... URL, please copy the link from the releases page).
+1. On other platforms (Mac, Linux), the program is run from the command-line.   The first step is to get a copy of the program.  You may use your browser or the wget command.
 
-     ```bash
-   ~$ wget https://github.com/jflamy/owlcms4-heroku-updater/releases/download/1.4.1/updater-linux-64
-      		...         
+     For Linux, the URL to use in the wget command is
+https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-linux-64
+   
+   For macOS, there are two binaries, depending on the architecture.  For older Intel Macs, use
+   
+   https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-macOS-intel
+   
+   For newer Macs, based on the M series chips, use
+   https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-macOS-m1
+   
+   ```bash
+   ~$ wget https://github.com/owlcms/owlcms4-heroku-updater/releases/latest/download/updater-linux-64
+          
    updater-linux-64              100%[=================================================>]   7.72M  4.39MB/s    in 1.8s
    
    2021-11-18 22:37:27 (4.39 MB/s) - ‘updater-linux-64’ saved [8096545/8096545]
-   
+   ```
+
+2. You must then make the program executable by using the `chmod`  command
+   ```
    ~$ chmod +x updater-linux-64
+   ```
+
+3. The program can then be run
+   ```
    ~$ ./updater-linux-64
-   updating ar-wl to 4.25.0-alpha01 ........^C
-   ~$ ./updater-linux-64
-   		...
+   updating ar-wl to 4.25.0-alpha01 ........
    ```
    
 2. If the user has not used the `heroku` program or this updater on the machine before, a prompt for the Heroku username and password is given. The API token is stored locally so that subsequent updates do not require the password.
@@ -53,7 +68,7 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
      > You need to scroll down that page to find a section called `API Key`.  Hit the `Reveal` button to see the key so you can copy and paste it.
      >
      > If the program exits immediately (older versions) or gives an error message regarding wrong credentials (newer versions), remove the .netrc file in your home directory  and try again.
-     
+
 3. The program fetches the list of the user's Heroku applications and detects the ones that are for owlcms (currently, `owlcms4` and `publicresults`).  Other applications that are not owlcms or publicresults will be ignored.
 
 4. Each application is then updated, if needed, to the latest version available (prerelease applications are updated to the latest prerelease, stable applications to the latest stable.)  
@@ -69,6 +84,6 @@ On Windows, a new window will open.  You can see that on first use the Heroku lo
 | <nobr>`-prerelease`</nobr>                                   | If present, only prerelease versions will be updated.        |
 | `-stable`                                                    | If present, only stable versions will be updated.            |
 | `-shell`                                                     | On Windows, open a separate window to run the program.       |
-| `-prompt=true`\| false                                       | Ask for a prompt after updating the sites.  <br />On Windows, if the program was started by double-clicking and a prompt will be shown to avoid closing the window. If options are given the program is assumed to have been started from a command line interface, so no prompt is shown. If you create a shortcut with options you must use -prompt=true to force a prompt. |
+| `-prompt=true`\| false                                       | Ask for a prompt after updating the sites.  <br />When running on Windows: <br />-  if the program was started by double-clicking a prompt, it will  have no command-line options and a prompt will be shown to avoid closing the window. <br />- if options are given the program is assumed to have been started from a command line interface, so no prompt is shown. If you create a shortcut with options you must use -prompt=true to force a prompt. |
 
  
